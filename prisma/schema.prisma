@@ -28,12 +28,23 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  courses        Course[]         @relation("InstructorCourses")
-  enrollments    Enrollment[]
-  lessonProgress LessonProgress[]
-  quizAttempts   QuizAttempt[]
-  certificates   Certificate[]
-  payments       Payment[]
+  courses             Course[]             @relation("InstructorCourses")
+  enrollments         Enrollment[]
+  lessonProgress      LessonProgress[]
+  quizAttempts        QuizAttempt[]
+  certificates        Certificate[]
+  payments            Payment[]
+  passwordResetTokens PasswordResetToken[]
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
 }
 
 model Course {

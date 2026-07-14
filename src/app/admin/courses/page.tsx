@@ -25,7 +25,15 @@ export default async function AdminCoursesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900 mb-6">Course Pricing</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-slate-900">Courses</h1>
+        <Link
+          href="/admin/courses/new"
+          className="px-4 py-2 bg-primary-600 text-white text-sm font-semibold rounded-lg hover:bg-primary-700 transition-colors"
+        >
+          + New course
+        </Link>
+      </div>
 
       <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
         <table className="w-full text-sm">
@@ -64,12 +72,20 @@ export default async function AdminCoursesPage() {
                   )}
                 </td>
                 <td className="px-5 py-4 text-right">
-                  <Link
-                    href={`/admin/courses/${course.id}`}
-                    className="text-sm font-medium text-primary-700 hover:text-primary-800 transition-colors"
-                  >
-                    Edit pricing
-                  </Link>
+                  <div className="flex items-center justify-end gap-4">
+                    <Link
+                      href={`/admin/courses/${course.id}/lessons`}
+                      className="text-sm font-medium text-primary-700 hover:text-primary-800 transition-colors"
+                    >
+                      Edit lessons
+                    </Link>
+                    <Link
+                      href={`/admin/courses/${course.id}`}
+                      className="text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors"
+                    >
+                      Edit pricing
+                    </Link>
+                  </div>
                 </td>
               </tr>
             ))}

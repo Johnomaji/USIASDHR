@@ -24,7 +24,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     select: { title: true, description: true },
   })
   if (!course) return { title: 'Course Not Found' }
-  return { title: course.title, description: course.description }
+  return {
+    title: course.title,
+    description: course.description,
+    openGraph: {
+      title: course.title,
+      description: course.description,
+      type: 'website',
+    },
+  }
 }
 
 export default async function CourseDetailPage({ params }: Props) {
@@ -75,8 +83,32 @@ export default async function CourseDetailPage({ params }: Props) {
 
   const totalLessons = course.modules.reduce((sum, m) => sum + m.lessons.length, 0)
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: course.title,
+    description: course.description,
+    url: `${process.env.APP_URL ?? 'http://localhost:3000'}/courses/${course.slug}`,
+    provider: { '@type': 'Organization', name: 'USIASDHR Academy' },
+    instructor: { '@type': 'Person', name: course.instructor.name },
+    courseMode: 'online',
+    isAccessibleForFree: course.isFree,
+    ...(!course.isFree && course.price
+      ? { offers: { '@type': 'Offer', price: Number(course.price), priceCurrency: 'NGN' } }
+      : {}),
+    hasCourseInstance: {
+      '@type': 'CourseInstance',
+      courseMode: 'online',
+      courseWorkload: `PT${totalLessons}H`,
+    },
+  }
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="lg:grid lg:grid-cols-3 lg:gap-12">
         {/* Main content */}
         <div className="lg:col-span-2">
