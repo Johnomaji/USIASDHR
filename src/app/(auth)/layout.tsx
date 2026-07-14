@@ -6,10 +6,10 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       {/* Wordmark */}
       <Link
         href="/"
-        className="mb-8 text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 rounded-lg"
+        className="mb-8 text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 rounded-lg"
         aria-label="USIASDHR — go to home page"
       >
-        <span className="block text-sm font-semibold tracking-widest text-teal-700 uppercase">
+        <span className="block text-sm font-semibold tracking-widest text-primary-700 uppercase">
           USIASDHR
         </span>
         <span className="block text-xs text-slate-500 mt-0.5">

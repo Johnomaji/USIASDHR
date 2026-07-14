@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useActionState } from 'react'
 import { updateCoursePricing } from '@/actions/admin'
 
 type Props = {
@@ -11,9 +11,10 @@ type Props = {
 
 export default function PricingForm({ courseId, initialIsFree, initialPrice }: Props) {
   const [isFree, setIsFree] = useState(initialIsFree)
+  const [state, formAction] = useActionState(updateCoursePricing, null)
 
   return (
-    <form action={updateCoursePricing} className="space-y-6">
+    <form action={formAction} className="space-y-6">
       <input type="hidden" name="courseId" value={courseId} />
       <input type="hidden" name="isFree" value={String(isFree)} />
 
@@ -64,6 +65,10 @@ export default function PricingForm({ courseId, initialIsFree, initialPrice }: P
           </div>
           <p className="mt-1.5 text-xs text-slate-400">Minimum ₦100. Charged in Nigerian Naira via Paystack.</p>
         </div>
+      )}
+
+      {state?.error && (
+        <p className="text-sm text-red-600" aria-live="polite">{state.error}</p>
       )}
 
       <button

@@ -4,7 +4,10 @@ import { verifyRole } from '@/lib/dal'
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
-export async function updateCoursePricing(formData: FormData) {
+export async function updateCoursePricing(
+  _prevState: { error: string } | null,
+  formData: FormData
+) {
   await verifyRole(['ADMIN'])
 
   const courseId = formData.get('courseId') as string

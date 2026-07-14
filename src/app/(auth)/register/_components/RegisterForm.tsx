@@ -8,7 +8,7 @@ import { useState } from 'react'
 const inputClass =
   'w-full px-3 py-2.5 rounded-lg border border-slate-300 text-slate-900 bg-white ' +
   'placeholder:text-slate-400 text-base ' +
-  'focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 ' +
+  'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 ' +
   'aria-[invalid=true]:border-red-400 aria-[invalid=true]:ring-red-300'
 
 const passwordRules = [
@@ -104,7 +104,7 @@ export default function RegisterForm() {
             type="button"
             onClick={() => setShowPassword((v) => !v)}
             aria-label={showPassword ? 'Hide password' : 'Show password'}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-1 rounded"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1 rounded"
           >
             {showPassword ? (
               <EyeOff className="w-4 h-4" aria-hidden="true" />
@@ -121,10 +121,10 @@ export default function RegisterForm() {
             return (
               <li
                 key={rule.label}
-                className={`flex items-center gap-1.5 text-xs ${met ? 'text-teal-700' : 'text-slate-500'}`}
+                className={`flex items-center gap-1.5 text-xs ${met ? 'text-primary-700' : 'text-slate-500'}`}
               >
                 <CheckCircle2
-                  className={`w-3.5 h-3.5 shrink-0 ${met ? 'text-teal-600' : 'text-slate-300'}`}
+                  className={`w-3.5 h-3.5 shrink-0 ${met ? 'text-primary-600' : 'text-slate-300'}`}
                   aria-hidden="true"
                 />
                 <span aria-live="polite">
@@ -148,7 +148,7 @@ export default function RegisterForm() {
         type="submit"
         disabled={pending}
         aria-busy={pending}
-        className="w-full py-2.5 px-4 bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 disabled:cursor-not-allowed text-white font-medium rounded-lg text-base transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
+        className="w-full py-2.5 px-4 bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 disabled:cursor-not-allowed text-white font-medium rounded-lg text-base transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
       >
         {pending ? 'Creating account…' : 'Create account'}
       </button>
