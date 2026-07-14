@@ -2,17 +2,17 @@
 
 /* ── USIASDHR colour tokens ────────────────────────────────────────────────── */
 @theme inline {
-  /* Primary: calm teal */
-  --color-primary-50:  #f0fdfa;
-  --color-primary-100: #ccfbf1;
-  --color-primary-200: #99f6e4;
-  --color-primary-300: #5eead4;
-  --color-primary-400: #2dd4bf;
-  --color-primary-500: #14b8a6;
-  --color-primary-600: #0d9488;
-  --color-primary-700: #0f766e;
-  --color-primary-800: #115e59;
-  --color-primary-900: #134e4a;
+  /* Primary: USIASDHR navy indigo #252158 */
+  --color-primary-50:  #f3f2ff;
+  --color-primary-100: #dfddfd;
+  --color-primary-200: #c0bcf5;
+  --color-primary-300: #8f89e6;
+  --color-primary-400: #5a52d1;
+  --color-primary-500: #39329f;
+  --color-primary-600: #252158;
+  --color-primary-700: #1a1745;
+  --color-primary-800: #121032;
+  --color-primary-900: #0c0b23;
 
   /* Surface: warm slate neutrals */
   --color-surface-50:  #f8fafc;
@@ -62,7 +62,7 @@ body {
    Thick, high-contrast focus ring — essential for keyboard users.
    We only show it on keyboard navigation, not mouse clicks.             */
 :focus-visible {
-  outline: 3px solid #0d9488;
+  outline: 3px solid #252158;
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -73,7 +73,7 @@ body {
   position: absolute;
   top: -100%;
   left: 0;
-  background: #0d9488;
+  background: #252158;
   color: #fff;
   padding: 0.5rem 1rem;
   font-weight: 600;

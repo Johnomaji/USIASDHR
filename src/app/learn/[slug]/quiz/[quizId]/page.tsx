@@ -104,6 +104,13 @@ export default async function QuizPage({ params, searchParams }: Props) {
     const totalAttemptsUsed = quizAttempts.filter((a) => a.quizId === quizId).length
     const canRetake = totalAttemptsUsed < attempt.quiz.maxAttempts && !attempt.passed
 
+    const certificate = attempt.passed
+      ? await prisma.certificate.findUnique({
+          where: { userId_courseId: { userId: session.user.id, courseId: course.id } },
+          select: { certificateCode: true },
+        })
+      : null
+
     // What comes after this quiz in the mixed sequence
     type Item = { type: 'lesson' | 'quiz'; id: string }
     const allItems: Item[] = course.modules.flatMap((m) => [
@@ -242,12 +249,21 @@ export default async function QuizPage({ params, searchParams }: Props) {
               Retake quiz
             </Link>
           )}
-          <Link
-            href={nextHref}
-            className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 transition-colors"
-          >
-            {nextItem ? 'Continue →' : 'Back to dashboard →'}
-          </Link>
+          {certificate ? (
+            <Link
+              href={`/verify/${certificate.certificateCode}`}
+              className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 transition-colors"
+            >
+              View your certificate →
+            </Link>
+          ) : (
+            <Link
+              href={nextHref}
+              className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 transition-colors"
+            >
+              {nextItem ? 'Continue →' : 'Back to dashboard →'}
+            </Link>
+          )}
         </div>
       </QuizShell>
     )

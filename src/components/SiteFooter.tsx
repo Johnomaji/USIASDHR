@@ -6,11 +6,30 @@ export default function SiteFooter() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid sm:grid-cols-3 gap-8">
           <div>
-            <p className="font-bold text-white text-sm mb-3">USIASDHR Academy</p>
+            <div className="inline-flex bg-white rounded-xl p-2 mb-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/US1-01.png"
+                alt="USIASDHR seal"
+                className="h-16 w-auto"
+              />
+            </div>
             <p className="text-sm leading-6">
               Online learning for autism education — for families, caregivers, educators, and
               professionals.
             </p>
+            <div className="mt-4 space-y-1 text-sm">
+              <p>
+                <a href="tel:+2349062037222" className="hover:text-white transition-colors">
+                  +234 906 203 7222
+                </a>
+              </p>
+              <p>
+                <a href="mailto:Info@usiasdhr.com" className="hover:text-white transition-colors">
+                  Info@usiasdhr.com
+                </a>
+              </p>
+            </div>
           </div>
           <div>
             <p className="font-semibold text-white text-sm mb-3">Learn</p>

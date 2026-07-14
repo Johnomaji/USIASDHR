@@ -1,36 +1,127 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# USIASDHR LMS
+
+A neurodivergent-friendly Learning Management System for the **United States Institute of Autism Spectrum Disorder and Human Rights (USIASDHR)**.
+
+Designed with WCAG 2.1 AA compliance, calm visual palette, predictable layouts, and reduced-motion support to ensure an accessible learning experience for all users.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16.2.10 (App Router) |
+| UI | React 19, Tailwind CSS v4, Lucide React |
+| Language | TypeScript 5 |
+| Database | PostgreSQL via Prisma 7 + `@prisma/adapter-pg` |
+| Auth | NextAuth v5 (beta) — credentials provider, JWT sessions |
+| Forms | react-hook-form + Zod v4 |
+| Content | marked (Markdown rendering) |
+| Crypto | bcryptjs, jose |
+
+---
+
+## Features
+
+- **Role-based access** — `ADMIN`, `INSTRUCTOR`, and `STUDENT` roles
+- **Course catalog** — browsable public course listing with slug-based detail pages
+- **Structured curriculum** — Courses → Modules → Lessons with ordered content and attachments
+- **Lesson player** — text and video lessons with progress tracking
+- **Quizzes** — per-module quizzes with configurable passing scores and attempt limits
+- **Certificates** — auto-issued on course completion with unique certificate codes
+- **Enrollment system** — per-user enrollment with progress percentage tracking
+- **Dashboard** — student dashboard showing enrolled courses and progress
+
+---
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── (auth)/         # Login and register pages
+│   ├── (public)/       # Public site: home, course catalog, course detail
+│   ├── dashboard/      # Student dashboard
+│   └── learn/          # Lesson player and quiz pages
+├── actions/            # Server actions (auth, enrollment, progress, quiz)
+├── components/         # Shared UI components (SiteHeader, SiteFooter, CourseCard, etc.)
+├── lib/                # Prisma client, DAL (verifySession)
+└── types/              # NextAuth type augmentation
+
+prisma/
+├── schema.prisma       # Database schema
+└── seed.ts             # Database seed script
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 20+
+- PostgreSQL database
+
+### Installation
+
+```bash
+npm install
+```
+
+### Environment Variables
+
+Create a `.env` file at the project root:
+
+```env
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
+AUTH_SECRET="your-nextauth-secret"
+```
+
+### Database Setup
+
+```bash
+# Push schema to the database
+npx prisma db push
+
+# Seed with sample data
+npx prisma db seed
+```
+
+### Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Other Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build    # Production build
+npm run start    # Start production server
+npm run lint     # Run ESLint
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Database Schema Overview
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+User ──< Enrollment >── Course ──< Module ──< Lesson ──< Attachment
+                                           └──< Quiz  ──< Question ──< QuestionOption
+User ──< LessonProgress
+User ──< QuizAttempt ──< QuizAttemptAnswer
+User ──< Certificate
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Accessibility
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This platform is built with neurodivergent users in mind:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- WCAG 2.1 AA target compliance
+- Calm, low-contrast palette to reduce visual fatigue
+- Predictable, consistent page layouts
+- `prefers-reduced-motion` support throughout

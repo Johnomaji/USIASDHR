@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { getSession } from '@/lib/dal'
 import { enrollInCourse } from '@/actions/enrollment'
+import { initiatePayment } from '@/actions/payment'
 import type { CourseLevel } from '@prisma/client'
 
 const levelLabel: Record<CourseLevel, string> = {
@@ -39,6 +40,8 @@ export default async function CourseDetailPage({ params }: Props) {
         category: true,
         level: true,
         slug: true,
+        isFree: true,
+        price: true,
         instructor: { select: { name: true } },
         modules: {
           orderBy: { order: 'asc' },
@@ -166,8 +169,19 @@ export default async function CourseDetailPage({ params }: Props) {
         {/* Enrollment sidebar */}
         <aside className="mt-10 lg:mt-0" aria-label="Enrollment">
           <div className="bg-white border border-slate-200 rounded-xl p-6 lg:sticky lg:top-24 shadow-sm">
-            <p className="text-2xl font-bold text-slate-900 mb-1">Free</p>
-            <p className="text-sm text-slate-500 mb-6">Full access &middot; No expiry</p>
+            {course.isFree ? (
+              <>
+                <p className="text-2xl font-bold text-slate-900 mb-1">Free</p>
+                <p className="text-sm text-slate-500 mb-6">Full access &middot; No expiry</p>
+              </>
+            ) : (
+              <>
+                <p className="text-2xl font-bold text-slate-900 mb-1">
+                  ₦{Number(course.price).toLocaleString('en-NG', { minimumFractionDigits: 0 })}
+                </p>
+                <p className="text-sm text-slate-500 mb-6">One-time payment &middot; Lifetime access</p>
+              </>
+            )}
 
             {!session ? (
               <>
@@ -194,7 +208,7 @@ export default async function CourseDetailPage({ params }: Props) {
               >
                 Continue learning
               </Link>
-            ) : (
+            ) : course.isFree ? (
               <form action={enrollInCourse}>
                 <input type="hidden" name="courseId" value={course.id} />
                 <input type="hidden" name="slug" value={course.slug} />
@@ -203,6 +217,16 @@ export default async function CourseDetailPage({ params }: Props) {
                   className="w-full px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors"
                 >
                   Enroll for free
+                </button>
+              </form>
+            ) : (
+              <form action={initiatePayment}>
+                <input type="hidden" name="courseId" value={course.id} />
+                <button
+                  type="submit"
+                  className="w-full px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors"
+                >
+                  Pay to enroll
                 </button>
               </form>
             )}

@@ -2,6 +2,7 @@
 
 import { verifySession } from '@/lib/dal'
 import { prisma } from '@/lib/prisma'
+import { maybeIssueCertificate } from '@/lib/certificate'
 import { redirect } from 'next/navigation'
 
 export async function submitQuiz(formData: FormData) {
@@ -53,17 +54,27 @@ export async function submitQuiz(formData: FormData) {
     quiz.questions.length > 0 ? Math.round((correct / quiz.questions.length) * 100) : 0
   const passed = score >= quiz.passingScore
 
-  const attempt = await prisma.quizAttempt.create({
-    data: {
-      userId: session.user.id,
-      quizId,
-      score,
-      passed,
-      answers: {
-        create: answers.map((a) => ({ questionId: a.questionId, optionId: a.optionId })),
+  const [attempt, courseRecord] = await Promise.all([
+    prisma.quizAttempt.create({
+      data: {
+        userId: session.user.id,
+        quizId,
+        score,
+        passed,
+        answers: {
+          create: answers.map((a) => ({ questionId: a.questionId, optionId: a.optionId })),
+        },
       },
-    },
-  })
+    }),
+    prisma.course.findFirst({
+      where: { slug: courseSlug },
+      select: { id: true },
+    }),
+  ])
+
+  if (passed && courseRecord) {
+    await maybeIssueCertificate(session.user.id, courseRecord.id)
+  }
 
   redirect(`/learn/${courseSlug}/quiz/${quizId}?attempt=${attempt.id}`)
 }

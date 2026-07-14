@@ -33,6 +33,7 @@ model User {
   lessonProgress LessonProgress[]
   quizAttempts   QuizAttempt[]
   certificates   Certificate[]
+  payments       Payment[]
 }
 
 model Course {
@@ -44,6 +45,8 @@ model Course {
   category     String
   level        CourseLevel @default(BEGINNER)
   published    Boolean     @default(false)
+  isFree       Boolean     @default(true)
+  price        Decimal?    @db.Decimal(10, 2)
   instructorId String
   instructor   User        @relation("InstructorCourses", fields: [instructorId], references: [id])
   createdAt    DateTime    @default(now())
@@ -52,6 +55,7 @@ model Course {
   modules      Module[]
   enrollments  Enrollment[]
   certificates Certificate[]
+  payments     Payment[]
 }
 
 model Module {
@@ -200,4 +204,26 @@ model Certificate {
   issuedAt        DateTime @default(now())
 
   @@unique([userId, courseId])
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model Payment {
+  id        String        @id @default(cuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id])
+  courseId  String
+  course    Course        @relation(fields: [courseId], references: [id])
+  amount    Decimal       @db.Decimal(10, 2)
+  currency  String        @default("NGN")
+  reference String        @unique
+  status    PaymentStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([userId, courseId])
 }

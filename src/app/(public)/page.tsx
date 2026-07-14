@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { prisma } from '@/lib/prisma'
 import CourseCard from '@/components/CourseCard'
+import HeroVideo from './_components/HeroVideo'
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -41,6 +42,8 @@ export default async function LandingPage() {
       description: true,
       category: true,
       level: true,
+      isFree: true,
+      price: true,
       instructor: { select: { name: true } },
       _count: { select: { enrollments: true } },
     },
@@ -49,30 +52,53 @@ export default async function LandingPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-b from-primary-50 to-white py-20 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
-            Learn to support and understand{' '}
-            <span className="text-primary-600">autistic people</span>
-          </h1>
-          <p className="mt-6 text-lg text-slate-600 leading-relaxed">
-            Evidence-based courses for families, caregivers, educators, and professionals.
-            Built with accessibility and neurodiversity at the heart of every lesson.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/courses"
-              className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors"
-            >
-              Browse courses
-            </Link>
-            <Link
-              href="/register"
-              className="inline-flex items-center justify-center px-8 py-3 rounded-lg border border-slate-300 text-slate-700 font-semibold hover:bg-slate-100 transition-colors"
-            >
-              Create free account
-            </Link>
+      <section className="bg-white px-4 sm:px-6 lg:px-8 pt-5 pb-10">
+        <div className="relative rounded-2xl overflow-hidden min-h-[560px] flex items-center justify-center max-w-6xl mx-auto">
+
+          {/* Autoplaying background video */}
+          <HeroVideo />
+
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-black/55" aria-hidden="true" />
+
+          {/* Main content */}
+          <div className="relative z-10 text-center px-6 py-20 max-w-3xl mx-auto w-full">
+            <p className="text-xs font-bold tracking-[0.28em] uppercase text-white/65 mb-5">
+              Autism &amp; Human Right Academy
+            </p>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+              Education rooted in dignity, equality, and justice
+            </h1>
+            <p className="text-base sm:text-lg text-white/80 leading-relaxed mb-10 max-w-xl mx-auto">
+              Choose an online video course to watch and gain certification.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/courses"
+                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-white text-slate-900 font-semibold hover:bg-slate-100 transition-colors"
+              >
+                Browse courses →
+              </Link>
+              <Link
+                href="/register"
+                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-white/50 text-white font-semibold hover:bg-white/10 transition-colors"
+              >
+                Create free account
+              </Link>
+            </div>
           </div>
+
+          {/* Floating card — bottom right (Vimeo-style) */}
+          <div className="absolute bottom-5 right-5 hidden sm:flex items-center gap-3 bg-white/90 backdrop-blur-sm rounded-2xl px-5 py-3.5 shadow-lg">
+            <div className="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center shrink-0">
+              <span className="text-white text-xs pl-0.5" aria-hidden="true">▶</span>
+            </div>
+            <div className="text-left">
+              <p className="text-sm font-semibold text-slate-900 leading-tight">Start learning today</p>
+              <p className="text-xs text-slate-500 mt-0.5">Free certifications available</p>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -83,10 +109,9 @@ export default async function LandingPage() {
             Our mission
           </h2>
           <p className="mt-4 text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            The United States Institute of Autism Spectrum Disorder and Human Rights exists to
-            advance understanding, acceptance, and rights for autistic people through accessible,
-            high-quality education. Every course is designed with neurodiversity in mind —
-            predictable layouts, calm colours, and no flashing media.
+            Our story began with a simple desire: to create a space where every human being is
+            respected, heard, and empowered — a place rooted in dignity, equality, and justice
+            for all.
           </p>
         </div>
 

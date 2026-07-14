@@ -2,6 +2,7 @@
 
 import { verifySession } from '@/lib/dal'
 import { prisma } from '@/lib/prisma'
+import { maybeIssueCertificate } from '@/lib/certificate'
 import { redirect } from 'next/navigation'
 
 export async function markLessonComplete(formData: FormData) {
@@ -50,6 +51,8 @@ export async function markLessonComplete(formData: FormData) {
       ...(completedLessons >= totalLessons ? { completedAt: new Date() } : {}),
     },
   })
+
+  await maybeIssueCertificate(session.user.id, enrollment.courseId)
 
   // Only allow redirects to internal /learn/* paths to prevent open redirect
   const safeHref = nextHref?.startsWith('/learn/') ? nextHref : null

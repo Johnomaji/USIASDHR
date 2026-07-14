@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Script from 'next/script'
 import { notFound, redirect } from 'next/navigation'
 import { marked } from 'marked'
 import { verifySession } from '@/lib/dal'
@@ -18,6 +19,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     select: { title: true },
   })
   return { title: lesson?.title ?? 'Lesson' }
+}
+
+function getVimeoEmbedUrl(url: string): string {
+  if (/^\d+$/.test(url)) return `https://player.vimeo.com/video/${url}?dnt=1`
+  if (url.includes('player.vimeo.com')) return url
+  const match = url.match(/vimeo\.com\/(\d+)(?:\/([a-f0-9]+))?/)
+  if (match) {
+    const [, id, hash] = match
+    return hash
+      ? `https://player.vimeo.com/video/${id}?h=${hash}&dnt=1`
+      : `https://player.vimeo.com/video/${id}?dnt=1`
+  }
+  return url
 }
 
 export default async function LessonPage({ params }: Props) {
@@ -175,13 +189,15 @@ export default async function LessonPage({ params }: Props) {
             </div>
 
             {lesson.videoUrl && (
-              <div
-                className="mb-8 aspect-video bg-slate-900 rounded-xl flex flex-col items-center justify-center gap-3 select-none"
-                role="img"
-                aria-label="Video lesson — video player will appear here"
-              >
-                <span className="text-5xl text-white opacity-50" aria-hidden="true">▶</span>
-                <p className="text-sm text-slate-400">Video content</p>
+              <div className="mb-8 aspect-video rounded-xl overflow-hidden bg-slate-900">
+                <iframe
+                  src={getVimeoEmbedUrl(lesson.videoUrl)}
+                  className="w-full h-full"
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                  allowFullScreen
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  title={lesson.title}
+                />
               </div>
             )}
 
@@ -237,6 +253,9 @@ export default async function LessonPage({ params }: Props) {
           </footer>
         </main>
       </div>
+      {lesson.videoUrl && (
+        <Script src="https://player.vimeo.com/api/player.js" strategy="lazyOnload" />
+      )}
     </div>
   )
 }

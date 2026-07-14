@@ -13,6 +13,8 @@ type CourseCardCourse = {
   description: string
   category: string
   level: CourseLevel
+  isFree: boolean
+  price: unknown
   instructor: { name: string }
   _count?: { enrollments: number }
 }
@@ -48,12 +50,23 @@ export default function CourseCard({ course, headingLevel: H = 'h3' }: Props) {
           {course.instructor.name}
           {course._count != null ? ` · ${course._count.enrollments} learners` : ''}
         </span>
-        <Link
-          href={`/courses/${course.slug}`}
-          className="inline-flex items-center text-sm font-medium text-primary-700 hover:text-primary-800 transition-colors shrink-0"
-        >
-          View course →
-        </Link>
+        <div className="flex items-center gap-3 shrink-0">
+          {course.isFree ? (
+            <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+              Free
+            </span>
+          ) : (
+            <span className="text-xs font-semibold text-slate-700">
+              ₦{Number(course.price).toLocaleString('en-NG', { minimumFractionDigits: 0 })}
+            </span>
+          )}
+          <Link
+            href={`/courses/${course.slug}`}
+            className="inline-flex items-center text-sm font-medium text-primary-700 hover:text-primary-800 transition-colors"
+          >
+            View course →
+          </Link>
+        </div>
       </div>
     </article>
   )

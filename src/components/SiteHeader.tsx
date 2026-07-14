@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getSession } from '@/lib/dal'
 import { logout } from '@/actions/auth'
+import MobileMenu from './MobileMenu'
 
 export default async function SiteHeader() {
   const session = await getSession()
@@ -16,15 +17,17 @@ export default async function SiteHeader() {
     <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link
-            href="/"
-            className="font-bold text-primary-700 text-lg leading-none"
-            aria-label="USIASDHR Academy — Home"
-          >
-            USIASDHR Academy
+          <Link href="/" aria-label="USIASDHR Academy — Home">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/US2.png"
+              alt="USIASDHR — United States Institute of Autism Spectrum Disorder and Human Rights"
+              className="h-9 w-auto"
+            />
           </Link>
 
-          <nav aria-label="Main navigation">
+          {/* Desktop nav */}
+          <nav aria-label="Main navigation" className="hidden sm:block">
             <ul className="flex items-center gap-6 list-none m-0 p-0">
               <li>
                 <Link
@@ -37,7 +40,8 @@ export default async function SiteHeader() {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-3">
+          {/* Desktop auth */}
+          <div className="hidden sm:flex items-center gap-3">
             {session ? (
               <>
                 <Link
@@ -72,6 +76,9 @@ export default async function SiteHeader() {
               </>
             )}
           </div>
+
+          {/* Mobile hamburger */}
+          <MobileMenu isLoggedIn={!!session} dashboardHref={dashboardHref} />
         </div>
       </div>
     </header>
