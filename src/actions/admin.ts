@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
 export async function updateCoursePricing(
-  _prevState: { error: string } | null,
+  _prevState: { error: string } | null | undefined,
   formData: FormData
 ) {
   await verifyRole(['ADMIN'])
