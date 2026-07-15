@@ -53,7 +53,7 @@ export default async function LandingPage() {
     <>
       {/* Hero */}
       <section className="bg-white px-4 sm:px-6 lg:px-8 pt-5 pb-10">
-        <div className="relative rounded-2xl overflow-hidden min-h-[560px] flex items-center justify-center max-w-6xl mx-auto">
+        <div className="relative rounded-2xl overflow-hidden min-h-140 not-first:flex items-center justify-center max-w-6xl mx-auto">
 
           {/* Autoplaying background video */}
           <HeroVideo />
