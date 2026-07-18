@@ -53,6 +53,25 @@ export default function NewCourseForm({ instructors }: Props) {
         {fieldError(state?.errors?.description)}
       </div>
 
+      {/* Cover image */}
+      <div>
+        <label htmlFor="coverImage" className="block text-sm font-semibold text-slate-700 mb-1.5">
+          Cover image URL{' '}
+          <span className="font-normal text-slate-400">(optional)</span>
+        </label>
+        <input
+          id="coverImage"
+          type="url"
+          name="coverImage"
+          disabled={pending}
+          placeholder="https://example.com/image.jpg"
+          className={inputClass}
+        />
+        <p className="mt-1.5 text-xs text-slate-400">
+          Paste a direct image URL. Shown on course cards and the detail page.
+        </p>
+      </div>
+
       {/* Category + Level */}
       <div className="grid grid-cols-2 gap-4">
         <div>
@@ -155,7 +174,12 @@ export default function NewCourseForm({ instructors }: Props) {
 
       {/* Published */}
       <label className="flex items-center gap-3 cursor-pointer">
-        <input type="checkbox" name="published" disabled={pending} className="accent-primary-600 w-4 h-4" />
+        <input
+          type="checkbox"
+          name="published"
+          disabled={pending}
+          className="accent-primary-600 w-4 h-4"
+        />
         <span className="text-sm text-slate-700">Publish immediately</span>
       </label>
 

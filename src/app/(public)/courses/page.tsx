@@ -51,6 +51,7 @@ export default async function CoursesPage({ searchParams }: Props) {
       level: true,
       isFree: true,
       price: true,
+      coverImage: true,
       instructor: { select: { name: true } },
       _count: { select: { enrollments: true } },
     },
