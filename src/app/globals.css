@@ -152,3 +152,54 @@ body {
 .lesson-content li {
   margin-bottom: 0.5rem;
 }
+
+/* ── Glowing rotating border ─────────────────────────────────────────────
+   Outer wrapper: .card-glow-border   (sets clip + 2px padding gap)
+   Spin layer:    .card-glow-spin     (conic gradient that rotates)
+   Inner card:    .card-glow-inner    (white fill on top)              */
+@keyframes border-spin {
+  to { transform: rotate(1turn); }
+}
+
+.card-glow-border {
+  position: relative;
+  padding: 2px;
+  border-radius: 1rem; /* rounded-2xl */
+  overflow: hidden;
+}
+
+.card-glow-spin {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    transparent 68%,
+    #dbeafe 72%,
+    #93c5fd 77%,
+    #3b82f6 80%,
+    #2563eb 82%,
+    #3b82f6 84%,
+    #93c5fd 88%,
+    transparent 92%
+  );
+  animation: border-spin 3s linear infinite;
+}
+
+.card-glow-inner {
+  position: relative;
+  background: white;
+  border-radius: 14px; /* 16px outer - 2px padding */
+}
+
+/* ── Snap carousel — hide scrollbar, keep scroll ────────────────────────── */
+.snap-carousel {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.snap-carousel::-webkit-scrollbar {
+  display: none;
+}

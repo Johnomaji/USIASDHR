@@ -32,8 +32,8 @@ export default function CourseCard({ course, headingLevel: H = 'h3' }: Props) {
   return (
     <article className="bg-white rounded-xl border border-slate-200 flex flex-col overflow-hidden hover:shadow-md transition-shadow">
       {/* Cover image */}
-      {course.coverImage && (
-        <div className="relative w-full h-40 bg-slate-100 shrink-0">
+      <div className="relative w-full h-44 shrink-0 overflow-hidden">
+        {course.coverImage ? (
           <Image
             src={course.coverImage}
             alt=""
@@ -41,8 +41,26 @@ export default function CourseCard({ course, headingLevel: H = 'h3' }: Props) {
             className="object-cover"
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           />
-        </div>
-      )}
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-primary-600 to-primary-400 flex items-center justify-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-12 h-12 text-white/40"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
+              />
+            </svg>
+          </div>
+        )}
+      </div>
 
       <div className="p-6 flex flex-col gap-4 flex-1">
         <div className="flex items-start justify-between gap-3">
