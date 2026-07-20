@@ -42,7 +42,7 @@ export default function CourseCard({ course, headingLevel: H = 'h3' }: Props) {
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-primary-600 to-primary-400 flex items-center justify-center">
+          <div className="w-full h-full bg-linear-to-br from-primary-600 to-primary-400 flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-12 h-12 text-white/40"

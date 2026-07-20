@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
+import PublishToggle from './_components/PublishToggle'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = { title: 'Course Pricing — Admin' }
@@ -52,15 +53,18 @@ export default async function AdminCoursesPage() {
                 <td className="px-5 py-4 font-medium text-slate-900">{course.title}</td>
                 <td className="px-5 py-4 text-slate-500">{course.category}</td>
                 <td className="px-5 py-4">
-                  <span
-                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                      course.published
-                        ? 'bg-emerald-100 text-emerald-800'
-                        : 'bg-slate-100 text-slate-600'
-                    }`}
-                  >
-                    {course.published ? 'Published' : 'Draft'}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                        course.published
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : 'bg-slate-100 text-slate-600'
+                      }`}
+                    >
+                      {course.published ? 'Published' : 'Draft'}
+                    </span>
+                    <PublishToggle courseId={course.id} published={course.published} />
+                  </div>
                 </td>
                 <td className="px-5 py-4">
                   {course.isFree ? (

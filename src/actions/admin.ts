@@ -41,6 +41,14 @@ export async function updateCoursePricing(
   revalidatePath('/')
 }
 
+export async function toggleCoursePublished(courseId: string, published: boolean) {
+  await verifyRole(['ADMIN'])
+  await prisma.course.update({ where: { id: courseId }, data: { published } })
+  revalidatePath('/admin/courses')
+  revalidatePath('/courses')
+  revalidatePath('/')
+}
+
 type CourseFieldErrors = {
   title?: string[]
   description?: string[]
